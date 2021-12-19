@@ -17,7 +17,6 @@ import org.telegram.telegrambots.starter.SpringWebhookBot;
  * Date/time: 19 декабрь 2021 in 1:17
  */
 @Slf4j
-@Component
 @Setter
 public class WebHookOutletBot extends SpringWebhookBot {
     private BotConfiguration botConfig;

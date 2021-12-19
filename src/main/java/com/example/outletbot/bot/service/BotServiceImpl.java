@@ -1,15 +1,14 @@
 package com.example.outletbot.bot.service;
 
 import com.example.outletbot.bot.WebHookOutletBot;
+import com.example.outletbot.bot.handler.MessageTypeHandler;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import org.telegram.telegrambots.meta.generics.WebhookBot;
 
 /**
  * OutletBot Created by Home Work Studio AndrHey [andreigp]
@@ -18,18 +17,15 @@ import org.telegram.telegrambots.meta.generics.WebhookBot;
  */
 @Slf4j
 @Service
+@AllArgsConstructor
 public class BotServiceImpl implements BotService {
     private final WebHookOutletBot bot;
-
-    @Lazy
-    public BotServiceImpl(WebHookOutletBot bot) {
-        this.bot = bot;
-    }
-
+    private final MessageTypeHandler typeHandler;
+    private final BotRequestService requestService;
 
     @Override
     public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
-        return null;
+        return getResponse(update);
     }
 
     public void sendingMessage(SendMessage message) {
@@ -41,5 +37,31 @@ public class BotServiceImpl implements BotService {
             e.printStackTrace();
         }
         log.info("Sending successful!");
+    }
+
+    private BotApiMethod<?> getResponse(Update update) {
+        switch (typeHandler.getMessageType(update)) {
+            case BOT_COMMAND:
+                requestService.botCommand(update);
+                break;
+            case PHONE_NUMBER:
+                requestService.phoneNumber(update);
+                break;
+            case PLAIN_TEXT:
+                requestService.plainText(update);
+                break;
+            case DOCUMENT:
+                requestService.document(update);
+                break;
+            case CALLBACK:
+                requestService.callback(update);
+                break;
+            case OTHER:
+                requestService.other(update);
+                break;
+            default:
+                return null;
+        }
+        return null;
     }
 }
