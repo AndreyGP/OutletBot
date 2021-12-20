@@ -15,7 +15,7 @@ import java.io.Serializable;
  */
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Document(collation = "employee_profile_data")
+@Document
 public class EmployeeCollation implements Serializable {
     @Id
     String id;

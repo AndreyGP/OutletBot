@@ -2,6 +2,7 @@ package com.example.outletbot.repository;
 
 import com.example.outletbot.model.collation.OutletCollation;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

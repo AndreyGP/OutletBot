@@ -7,12 +7,15 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.core.env.Environment;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
+
+import java.util.Locale;
 
 /**
  * OutletBot Created by Home Work Studio AndrHey [andreigp]
@@ -23,8 +26,12 @@ import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
 @Getter
 @Setter
 @Configuration
-@PropertySource(value = "classpath:application.properties")
+@PropertySources({
+        @PropertySource(value = "classpath:application.properties", encoding = "UTF-8"),
+        @PropertySource(value = "classpath:message.properties", encoding = "UTF-8")
+})
 @ConfigurationProperties(prefix = "instamart")
+@ComponentScan(basePackages = "com.example.outletbot")
 public class BotConfiguration {
     private String webHookPath;
     private String botUserName;
@@ -51,12 +58,13 @@ public class BotConfiguration {
     public WebHookOutletBot webHookOutletBot(BotServiceImpl botService) {
         return new WebHookOutletBot(botService, this);
     }
-
-    @Bean("MessageSource")
-    public MessageSource messageSource() {
-        ReloadableResourceBundleMessageSource source = new ReloadableResourceBundleMessageSource();
-        source.setBasename("classpath:messages");
-        source.setDefaultEncoding("UTF-8");
-        return source;
-    }
+//
+//    @Bean
+//    public MessageSource messageSource() {
+//        ReloadableResourceBundleMessageSource source = new ReloadableResourceBundleMessageSource();
+//        source.setBasename("classpath:message");
+//        source.setDefaultLocale(Locale.ROOT);
+//        source.setDefaultEncoding("UTF-8");
+//        return source;
+//    }
 }

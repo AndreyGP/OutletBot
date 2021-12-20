@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 public class EmployeeAlertService {
     private final BotAlertService service;
 
+
     public void sendSimpleAlert(String chatId, String message) {
         service.sendingMessage(chatId, message);
     }

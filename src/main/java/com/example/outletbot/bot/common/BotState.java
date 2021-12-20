@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+
 /**
  * OutletBot Created by Home Work Studio AndrHey [andreigp]
  * FileName: BotState.java
@@ -43,5 +45,12 @@ public enum BotState {
 
     BotState(String botState) {
         this.botState = botState;
+    }
+
+    public static BotState fromString(String botState) {
+        return Arrays.stream(BotState.values())
+                .filter(t -> t.getBotState().equals(botState))
+                .findFirst()
+                .orElse(BotState.MAIN_MENU_DEFAULT);
     }
 }

@@ -2,6 +2,7 @@ package com.example.outletbot.repository;
 
 import com.example.outletbot.model.collation.EmployeeCollation;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 /**

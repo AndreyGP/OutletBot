@@ -25,11 +25,11 @@ import java.util.stream.Collectors;
  * FileName: JsonUtil.java
  * Date/time: 19 декабрь 2021 in 5:48
  */
-//@Setter
-//@Getter
-//@Component
-//@Scope("prototype")
-//public class JsonUtil {
+@Setter
+@Getter
+@Component
+@Scope("prototype")
+public class JsonUtil {
 //    private BotServiceImpl service;
 //    private String botToken = service.getBotToken();
 //    private Message inMessage;
@@ -113,4 +113,4 @@ import java.util.stream.Collectors;
 //        }
 //        return Collections.emptyList();
 //    }
-//}
+}

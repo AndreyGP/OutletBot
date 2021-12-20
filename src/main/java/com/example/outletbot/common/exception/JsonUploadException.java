@@ -1,11 +1,7 @@
 package com.example.outletbot.common.exception;
 
-import com.example.outletbot.bot.WebHookOutletBot;
 import com.example.outletbot.bot.service.BotAlertService;
 import com.example.outletbot.bot.service.BotServiceImpl;
-import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.Message;
 
 /**
  * OutletBot Created by Home Work Studio AndrHey [andreigp]
@@ -26,11 +22,11 @@ public class JsonUploadException extends Exception {
     }
 
     private void sendExceptionMessage() {
-        service.sendingMessage(
-                SendMessage.builder()
-                        .chatId(chatId)
-                        .text(errorMessage)
-                        .build()
-        );
+//        service.sendingMessage(
+//                SendMessage.builder()
+//                        .chatId(chatId)
+//                        .text(errorMessage)
+//                        .build()
+//        );
     }
 }

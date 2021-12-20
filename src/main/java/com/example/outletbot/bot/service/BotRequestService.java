@@ -1,8 +1,9 @@
 package com.example.outletbot.bot.service;
 
 import com.example.outletbot.bot.handler.CommandTypeHandler;
-import lombok.AllArgsConstructor;
+import com.example.outletbot.service.BaseEmployeeService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -14,10 +15,19 @@ import org.telegram.telegrambots.meta.api.objects.Update;
  */
 @Slf4j
 @Service
-@AllArgsConstructor
+//@AllArgsConstructor
 public class BotRequestService {
-    CommandTypeHandler commandTypeHandler;
-    BotResponseService service;
+    private final CommandTypeHandler commandTypeHandler;
+    private final BotResponseService service;
+    private final BaseEmployeeService baseEmployeeService;
+
+    @Autowired
+    public BotRequestService(CommandTypeHandler commandTypeHandler, BotResponseService service, BaseEmployeeService baseEmployeeService) {
+        this.commandTypeHandler = commandTypeHandler;
+        this.service = service;
+        this.baseEmployeeService = baseEmployeeService;
+    }
+
 
     public BotApiMethod<?> botCommand(Update update) {
         switch (commandTypeHandler.getCommandType(update)) {
@@ -55,9 +65,18 @@ public class BotRequestService {
 
     private BotApiMethod<?> startBotCommandContext(Update update) {
         String chatId = update.getMessage().getChatId().toString();
-        if (service.containsEmployee(chatId)) {
-            return service.responseIfSuperuser(chatId);
+//        return service.replyPhoneQuestion(chatId); Success
+//        return service.getMainMenuReply(chatId); Success
+//        return service.systemLaunch(chatId); Success
+//        return service.getHelloMessage(chatId); Success
+
+        if (baseEmployeeService.isNewEmployee(chatId)) {
+            return service.replyPhoneQuestion(chatId);
+        } else if (baseEmployeeService.containsInBD(chatId)) {
+            return service.getMainMenuReply(chatId);
+        } else if (baseEmployeeService.isInitSystem(chatId)) {
+            return service.systemLaunch(chatId);
         }
-        return service.helloNewEmployee(update.getMessage());
+        return service.getHelloMessage(chatId);
     }
 }

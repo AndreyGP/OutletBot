@@ -15,6 +15,6 @@ public class CommandTypeHandler {
 
 
     public BotCommandType getCommandType(Update update) {
-        return BotCommandType.valueOf(update.getMessage().getText());
+        return BotCommandType.fromString(update.getMessage().getText());
     }
 }
