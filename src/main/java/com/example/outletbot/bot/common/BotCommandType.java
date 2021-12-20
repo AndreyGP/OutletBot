@@ -1,6 +1,7 @@
 package com.example.outletbot.bot.common;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -9,8 +10,7 @@ import org.springframework.stereotype.Component;
  * FileName: BotCommandType.java
  * Date/time: 19 декабрь 2021 in 4:48
  */
-@Component
-@AllArgsConstructor
+@Getter
 public enum BotCommandType {
     START("/start"),
     HELP("/help"),
@@ -19,6 +19,9 @@ public enum BotCommandType {
     CLEAR("/clear"),
     CLEAR_ALL("/clear_all");
 
-    private String command;
+    private final String command;
 
+    BotCommandType(String command) {
+        this.command = command;
+    }
 }

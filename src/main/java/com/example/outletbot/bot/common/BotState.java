@@ -1,5 +1,6 @@
 package com.example.outletbot.bot.common;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -10,33 +11,37 @@ import org.springframework.stereotype.Component;
  * Date/time: 19 декабрь 2021 in 4:07
  */
 @Getter
-@Component
-@RequiredArgsConstructor
 public enum BotState {
-    START,
-    ADD_SUPER,
-    SUPER_REGISTRATION,
-    PHONE_SUPER_REGISTRATION,
-    FULL_NAME_SUPER_REGISTRATION,
-    SUPER_REGISTRATION_SUCCESS,
-    HELLO_NEW_SUPER,
-    INIT_NUMBER_OUTLET,
-    ADD_SENIOR,
-    ADD_SENIOR_PHONE,
-    ADD_SENIOR_FULL_NAME,
-    ADD_SENIOR_SUCCESS,
-    INIT_OUTLET_SUCCESS,
-    INTERVAL_FILTER,
-    STATUS_FILTER,
-    COURIER_FILTER,
-    PICKER_FILTER,
-    DEV_DEBAG,
-    DEV_MANE_MENU,
-    MAIN_MENU_DEFAULT,
-    MAIN_MENU_SUPER,
-    MAIN_MENU_SENIOR,
-    REFRESH_DATA_SUCCESS,
-    FAQ,
-    YOU_NOT_FOUND,
-    UN_CORRECT_COMMAND
+    START("start"),
+    ADD_SUPER("add_super"),
+    SUPER_REGISTRATION("super_registration"),
+    PHONE_SUPER_REGISTRATION("phone_super_registration"),
+    FULL_NAME_SUPER_REGISTRATION("full_name_super_registration"),
+    SUPER_REGISTRATION_SUCCESS("super_registration_success"),
+    HELLO_NEW_SUPER("hello_new_super"),
+    INIT_NUMBER_OUTLET("init_number_outlet"),
+    ADD_SENIOR("add_senior"),
+    ADD_SENIOR_PHONE("add_senior_phone"),
+    ADD_SENIOR_FULL_NAME("add_senior_full_name"),
+    ADD_SENIOR_SUCCESS("add_senior_success"),
+    INIT_OUTLET_SUCCESS("init_outlet_success"),
+    INTERVAL_FILTER("interval_filter"),
+    STATUS_FILTER("status_filter"),
+    COURIER_FILTER("courier_filter"),
+    PICKER_FILTER("picker_filter"),
+    DEV_DEBUG("dev_debug"),
+    DEV_MANE_MENU("dev_mane_menu"),
+    MAIN_MENU_DEFAULT("main_menu_default"),
+    MAIN_MENU_SUPER("main_menu_super"),
+    MAIN_MENU_SENIOR("main_menu_senior"),
+    REFRESH_DATA_SUCCESS("refresh_data_success"),
+    FAQ("faq"),
+    YOU_NOT_FOUND("you_not_found"),
+    UN_CORRECT_COMMAND("un_correct_command");
+
+    private final String botState;
+
+    BotState(String botState) {
+        this.botState = botState;
+    }
 }

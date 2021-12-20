@@ -1,6 +1,8 @@
 package com.example.outletbot.common.exception;
 
 import com.example.outletbot.bot.WebHookOutletBot;
+import com.example.outletbot.bot.service.BotAlertService;
+import com.example.outletbot.bot.service.BotServiceImpl;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -12,19 +14,19 @@ import org.telegram.telegrambots.meta.api.objects.Message;
  */
 
 public class JsonUploadException extends Exception {
-    private final WebHookOutletBot bot;
+    private final BotAlertService service;
     private final String chatId;
     private final String errorMessage;
 
-    public JsonUploadException(final WebHookOutletBot bot, final String chatId, final String errorMessage) {
-        this.bot = bot;
+    public JsonUploadException(final BotAlertService service, final String chatId, final String errorMessage) {
+        this.service = service;
         this.chatId = chatId;
         this.errorMessage = errorMessage;
         sendExceptionMessage();
     }
 
     private void sendExceptionMessage() {
-        bot.sendingMessage(
+        service.sendingMessage(
                 SendMessage.builder()
                         .chatId(chatId)
                         .text(errorMessage)

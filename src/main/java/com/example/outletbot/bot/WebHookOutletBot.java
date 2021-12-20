@@ -5,7 +5,6 @@ import com.example.outletbot.bot.service.BotServiceImpl;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -19,8 +18,8 @@ import org.telegram.telegrambots.starter.SpringWebhookBot;
 @Slf4j
 @Setter
 public class WebHookOutletBot extends SpringWebhookBot {
-    private BotConfiguration botConfig;
-    private BotServiceImpl service;
+    private final BotConfiguration botConfig;
+    private final BotServiceImpl service;
     
     @Autowired
     public WebHookOutletBot(BotServiceImpl botService, BotConfiguration botConfiguration) {
@@ -49,7 +48,4 @@ public class WebHookOutletBot extends SpringWebhookBot {
         return botConfig.getWebHookPath();
     }
 
-    public void sendingMessage(SendMessage message) {
-        service.sendingMessage(message);
-    }
 }

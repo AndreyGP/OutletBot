@@ -19,7 +19,6 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 @Service
 @AllArgsConstructor
 public class BotServiceImpl implements BotService {
-    private final WebHookOutletBot bot;
     private final MessageTypeHandler typeHandler;
     private final BotRequestService requestService;
 
@@ -28,22 +27,10 @@ public class BotServiceImpl implements BotService {
         return getResponse(update);
     }
 
-    public void sendingMessage(SendMessage message) {
-        log.info("Test message start sending...\n");
-        try {
-            bot.execute(message);
-        } catch (TelegramApiException e) {
-            log.info("Fucking catch!");
-            e.printStackTrace();
-        }
-        log.info("Sending successful!");
-    }
-
     private BotApiMethod<?> getResponse(Update update) {
         switch (typeHandler.getMessageType(update)) {
             case BOT_COMMAND:
-                requestService.botCommand(update);
-                break;
+                return requestService.botCommand(update);
             case PHONE_NUMBER:
                 requestService.phoneNumber(update);
                 break;

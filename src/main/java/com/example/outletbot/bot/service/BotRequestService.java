@@ -2,9 +2,7 @@ package com.example.outletbot.bot.service;
 
 import com.example.outletbot.bot.handler.CommandTypeHandler;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -24,6 +22,7 @@ public class BotRequestService {
     public BotApiMethod<?> botCommand(Update update) {
         switch (commandTypeHandler.getCommandType(update)) {
             case START:
+                return startBotCommandContext(update);
             case HELP:
             case MAIN_MENU:
             case FEEDBACK:
@@ -33,19 +32,32 @@ public class BotRequestService {
         }
         return null;
     }
+
     public BotApiMethod<?> phoneNumber(Update update) {
         return null;
     }
+
     public BotApiMethod<?> plainText(Update update) {
         return null;
     }
+
     public BotApiMethod<?> document(Update update) {
         return null;
     }
+
     public BotApiMethod<?> callback(Update update) {
         return null;
     }
+
     public BotApiMethod<?> other(Update update) {
         return null;
+    }
+
+    private BotApiMethod<?> startBotCommandContext(Update update) {
+        String chatId = update.getMessage().getChatId().toString();
+        if (service.containsEmployee(chatId)) {
+            return service.responseIfSuperuser(chatId);
+        }
+        return service.helloNewEmployee(update.getMessage());
     }
 }
