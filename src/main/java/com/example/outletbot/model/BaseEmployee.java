@@ -2,6 +2,7 @@ package com.example.outletbot.model;
 
 import com.example.outletbot.bot.common.BotState;
 import com.example.outletbot.common.EmployeeRole;
+import lombok.Getter;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
@@ -12,13 +13,5 @@ import org.telegram.telegrambots.meta.api.objects.Message;
  */
 @Component
 public class BaseEmployee extends Employee {
-    @Override
-    public Employee getNewEmployee(Message inMessage) {
-        Employee newEmployee = new BaseEmployee();
-        newEmployee.setEmployeeRole(EmployeeRole.NEW);
-        newEmployee.setBotState(BotState.START);
-        newEmployee.setChatId(inMessage.getChatId().toString());
-        newEmployee.setUsername(inMessage.getFrom().getUserName());
-        return newEmployee;
-    }
+
 }

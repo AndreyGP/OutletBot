@@ -31,5 +31,5 @@ public abstract class Employee {
     private Outlet baseOutlet;
     private Outlet currentOutlet;
 
-    public abstract Employee getNewEmployee(Message inMessage);
+//    public abstract Employee getNewEmployee(Message inMessage);
 }

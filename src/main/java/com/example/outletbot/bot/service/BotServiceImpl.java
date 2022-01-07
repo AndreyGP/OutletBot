@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 /**
@@ -25,6 +26,7 @@ public class BotServiceImpl implements BotService {
     }
 
     private BotApiMethod<?> getResponse(Update update) {
+
         switch (typeHandler.getMessageType(update)) {
             case BOT_COMMAND:
                 return requestService.botCommand(update);
@@ -38,8 +40,7 @@ public class BotServiceImpl implements BotService {
                 requestService.document(update);
                 break;
             case CALLBACK:
-                requestService.callback(update);
-                break;
+                return requestService.callback(update);
             case OTHER:
                 requestService.other(update);
                 break;

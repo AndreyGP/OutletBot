@@ -1,5 +1,9 @@
 package com.example.outletbot.service;
 
+import com.example.outletbot.bot.common.BotState;
+import com.example.outletbot.common.EmployeeRole;
+import com.example.outletbot.model.BaseEmployee;
+import com.example.outletbot.model.Employee;
 import com.example.outletbot.model.collation.EmployeeCollation;
 import com.example.outletbot.repository.EmployeeMongoRepository;
 import lombok.RequiredArgsConstructor;
@@ -42,5 +46,17 @@ public class EmployeeCollationService {
         mongoRepository.deleteByPhoneNumber(phoneNumber);
     }
 
+    public EmployeeCollation createSuperuserCollation(String chatId) {
+        EmployeeCollation superuser = new EmployeeCollation();
+        superuser.setEmployeeRole(EmployeeRole.DEV.getEmployeeRole());
+        superuser.setBotState(BotState.DEV_MANE_MENU.getBotState());
+        superuser.setChatId(chatId);
+        return superuser;
+    }
 
+    public void changeStateBot(String chatId, BotState botState) {
+        EmployeeCollation collation = getEmployeeCollationByChatId(chatId);
+        collation.setBotState(botState.getBotState());
+        mongoRepository.save(collation);
+    }
 }

@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +21,6 @@ import java.util.Map;
  */
 @Slf4j
 @Service
-//@RequiredArgsConstructor
 public class BaseEmployeeService {
     private final Map<String, Employee> newEmployees = new HashMap<>();
     private final EmployeeCollationService collationService;
@@ -34,19 +34,53 @@ public class BaseEmployeeService {
         this.alertService = alertService;
     }
 
+    public EmployeeCollation getEmployeeCollationByChatId(String chatId) {
+        return collationService.getEmployeeCollationByChatId(chatId);
+    }
+
     public boolean isNewEmployee(String chatId) {
         return containsChatId(chatId);
     }
 
     public boolean containsInBD(String chatId) {
-        return collationService.getEmployeeCollationByChatId(chatId) != null;
+        return getEmployeeCollationByChatId(chatId) != null;
     }
 
     public boolean isInitSystem(String chatId) {
         return (newEmployees.isEmpty() && collationService.getCountEmployee() == 0);
     }
 
+    public void addSuperuser(String chatId) {
+        alertService.sendSimpleAlert(chatId, "System initialisation mode");
+        sleep(3000);
+        alertService.sendSimpleAlert(chatId, "System initialisation success");
+        sleep(2000);
+        alertService.sendSimpleAlert(chatId, "Superuser initialisation mode");
+        collationService.addNewEmployeeCollation(collationService.createSuperuserCollation(chatId));
+        sleep(3000);
+        alertService.sendSimpleAlert(chatId, "Superuser initialisation access");
+        sleep(2000);
+        alertService.sendSimpleAlert(chatId, "The system is ready to work");
+        sleep(1500);
+    }
+
+    public void changeStateBot(String chatId, BotState botState) {
+        collationService.changeStateBot(chatId, botState);
+    }
+
     private boolean containsChatId(String chatId) {
         return newEmployees.containsKey(chatId);
+    }
+
+    public void addNewEmployee(Update update) {
+
+    }
+
+    private void sleep(int millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
